@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>SimpleCRM</title>
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
+        <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+        <!-- Router -->
+        <link rel="import" href="bower_components/app-router/app-router.html">
+
+        <!-- Elements -->
+        <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
+        <link rel="import" href="bower_components/paper-header-panel/paper-header-panel.html">
+        <link rel="import" href="bower_components/paper-toolbar/paper-toolbar.html">
+        <link rel="import" href="bower_components/paper-menu/paper-menu.html">
+        <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
+        <!-- Icons -->
+        <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+        <link rel="import" href="bower_components/iron-icons/social-icons.html">
+        <link rel="import" href="bower_components/iron-icons/maps-icons.html">
+        <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+        <style is="custom-style">
+            body {
+                font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+            }
+            paper-toolbar {
+                background: #00b4f0;
+                color: #fff;
+            }
+            paper-button {
+                background: red;
+            }
+            paper-header-panel {
+                background: #4b4b4b;
+            }
+            paper-menu {
+                background: transparent;
+            }
+            paper-menu a {
+                opacity: 0.8;
+                height: 30px;
+                line-height: 25px;
+                padding: 10px;
+                color: #fff;
+                text-decoration: none;
+                @apply(--layout-horizontal)
+                @apply(--layout-center)
+            }
+            paper-menu iron-icon {
+                margin-right: 10px;
+            }
+            .selectable-content.paper-menu > .iron-selected {
+                font-weight: normal;
+                opacity: 1;
+                background: rgba(255, 255, 255, 0.12);
+            }
+            #main {
+                padding: 20px;
+                overflow: scroll;
+            }
+        </style>
+    </head>
+    <body class="fullbleed layout vertical">
+        <paper-drawer-panel>
+
+            <!-- Sidebar menu -->
+            <paper-header-panel drawer>
+                <paper-toolbar>
+                    <span>SimpleCRM</span>
+                </paper-toolbar>
+                <paper-menu>
+                    <a href="#/customers">
+                        <iron-icon icon="social:people"></iron-icon>
+                        <span>Customers</span>
+                    </a>
+                    <a href="#/analyze">
+                        <iron-icon icon="assessment"></iron-icon>
+                        <span>Analyze</span>
+                    </a>
+                    <a href="#/map">
+                        <iron-icon icon="maps:place"></iron-icon>
+                        <span>Map</span>
+                    </a>
+                    <a href="#/about">
+                        <iron-icon icon="home"></iron-icon>
+                        <span>About</span>
+                    </a>
+                </paper-menu>
+            </paper-header-panel>
+
+            <!-- Main content -->
+            <div id="main" main>
+                <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                <app-router>
+                    <app-route path="/customers" import="/pages/customers-page.html"></app-route>
+                    <app-route path="/analyze" import="/pages/analyze-page.html"></app-route>
+                    <app-route path="/map" import="/pages/map-page.html"></app-route>
+                    <app-route path="*" import="/pages/about-page.html"></app-route>
+                </app-router>
+            </div>
+
+        </paper-drawer-panel>
+    </body>
+</html>

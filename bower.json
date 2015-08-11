@@ -1,0 +1,27 @@
+{
+  "name": "SimpleCRM",
+  "version": "0.1.0",
+  "authors": [
+    "Teemu Pöntelin <teemu@vaadin.com>"
+  ],
+  "license": "Apache2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vaadin-components": "~0.3.0-beta5",
+    "app-router": "~2.6.1",
+    "paper-drawer-panel": "polymerelements/paper-drawer-panel#~1.0.3",
+    "paper-menu": "polymerelements/paper-menu#~1.1.0",
+    "paper-header-panel": "polymerelements/paper-header-panel#~1.0.3",
+    "paper-toolbar": "polymerelements/paper-toolbar#~1.0.4",
+    "iron-icons": "polymerelements/iron-icons#~1.0.3",
+    "iron-flex-layout": "polymerelements/iron-flex-layout#~1.0.3",
+    "paper-icon-button": "polymerelements/paper-icon-button#~1.0.3"
+  }
+}
