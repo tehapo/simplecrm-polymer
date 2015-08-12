@@ -4,8 +4,8 @@
 
 <dom-module id="customers-page">
     <template>
-        <iron-ajax auto url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
-        
+        <iron-ajax id="req" url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+
         <h2>Customers</h2>
         <v-grid id="customersGrid">
             <table>
@@ -19,16 +19,25 @@
         </v-grid>
     </template>
     <script>
+        var _customersCache = [];
         Polymer({
             is: 'customers-page',
 
             properties: {
                 customers: {
-                    type: Array
+                    type: Array,
+                    observer: '_customersChanged'
                 }
             },
 
             ready: function() {
+                if (_customersCache.length === 0) {
+                    // Request customer data from server.
+                    this.$.req.generateRequest();
+                } else {
+                    // Use cached customer data.
+                    this.customers = _customersCache;
+                }
                 this.$.customersGrid.addEventListener('sort', function() {
                     var grid = this.$.customersGrid;
                     var column = grid.data.sortOrder[0].column;
@@ -36,6 +45,12 @@
                     var asc = grid.data.sortOrder[0].direction === 'asc';
                     this._sortCustomers(property, asc);
                 }.bind(this));
+            },
+
+            _customersChanged: function() {
+                this.async(function() {
+                    this.$.customersGrid.data.source = this.customers;
+                });
             },
 
             _sortCustomers: function(sortProperty, ascending) {
@@ -50,7 +65,7 @@
 
             _handleResponse: function(event, request) {
                 this.customers = request.response;
-                this.$.customersGrid.data.source = this.customers;
+                _customersCache = this.customers;
             }
         });
     </script>
