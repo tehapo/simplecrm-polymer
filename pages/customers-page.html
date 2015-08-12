@@ -1,11 +1,57 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="/bower_components/vaadin-components/vaadin-grid/vaadin-grid.html">
+
 <dom-module id="customers-page">
     <template>
+        <iron-ajax auto url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+        
         <h2>Customers</h2>
+        <v-grid id="customersGrid">
+            <table>
+                <colgroup>
+                    <col name="firstName" header-text="First name" sortable="true">
+                    <col name="lastName" header-text="Last name" sortable="true">
+                    <col name="email" header-text="Email" sortable="true">
+                    <col name="status" header-text="Status" sortable="true">
+                </colgroup>
+            </table>
+        </v-grid>
     </template>
     <script>
         Polymer({
-            is: 'customers-page'
+            is: 'customers-page',
+
+            properties: {
+                customers: {
+                    type: Array
+                }
+            },
+
+            ready: function() {
+                this.$.customersGrid.addEventListener('sort', function() {
+                    var grid = this.$.customersGrid;
+                    var column = grid.data.sortOrder[0].column;
+                    var property = grid.columns[column].name;
+                    var asc = grid.data.sortOrder[0].direction === 'asc';
+                    this._sortCustomers(property, asc);
+                }.bind(this));
+            },
+
+            _sortCustomers: function(sortProperty, ascending) {
+                this.customers.sort(function(item1, item2) {
+                    if (item1[sortProperty] < item2[sortProperty]) {
+                        return (ascending ? -1 : 1);
+                    } else {
+                        return (ascending ? 1 : -1);
+                    }
+                });
+            },
+
+            _handleResponse: function(event, request) {
+                this.customers = request.response;
+                this.$.customersGrid.data.source = this.customers;
+            }
         });
     </script>
 </dom-module>
