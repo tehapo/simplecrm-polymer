@@ -1,7 +1,25 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/vaadin-charts/v-chart.html">
 <dom-module id="analyze-page">
     <template>
-        <h2>Analyze</h2>
+        <h2>Customer analysis</h2>
+
+        <v-chart id="genderChart" vc-type="pie">
+            <vc-title>Gender</vc-title>
+            <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
+            <vc-plot-options>
+                <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
+                    <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
+                </vc-pie>
+            </vc-plot-options>
+
+            <v-series id="genderSeries" vc-name="Gender">
+                <vc-data id="genderSeriesData">
+                    ["Men",   40.0],
+                    ["Women", 60.0]
+                </vc-data>
+            </v-series>
+        </v-chart>
     </template>
     <script>
         Polymer({

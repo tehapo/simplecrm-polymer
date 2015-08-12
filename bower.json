@@ -23,6 +23,7 @@
     "iron-icons": "polymerelements/iron-icons#~1.0.3",
     "iron-flex-layout": "polymerelements/iron-flex-layout#~1.0.3",
     "paper-icon-button": "polymerelements/paper-icon-button#~1.0.3",
-    "iron-ajax": "polymerelements/iron-ajax#~1.0.3"
+    "iron-ajax": "polymerelements/iron-ajax#~1.0.3",
+    "vaadin-charts": "~3.0.0-alpha3"
   }
 }
