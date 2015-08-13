@@ -1,11 +1,10 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="/bower_components/vaadin-components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="/elements/customer-data.html">
 
 <dom-module id="customers-page">
     <template>
-        <iron-ajax id="req" url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
-
+        <customer-data customers="{{customers}}"></customer-data>
         <h2>Customers</h2>
         <v-grid id="customersGrid">
             <table>
@@ -19,7 +18,6 @@
         </v-grid>
     </template>
     <script>
-        var _customersCache = [];
         Polymer({
             is: 'customers-page',
 
@@ -31,13 +29,6 @@
             },
 
             ready: function() {
-                if (_customersCache.length === 0) {
-                    // Request customer data from server.
-                    this.$.req.generateRequest();
-                } else {
-                    // Use cached customer data.
-                    this.customers = _customersCache;
-                }
                 this.$.customersGrid.addEventListener('sort', function() {
                     var grid = this.$.customersGrid;
                     var column = grid.data.sortOrder[0].column;
@@ -63,10 +54,6 @@
                 });
             },
 
-            _handleResponse: function(event, request) {
-                this.customers = request.response;
-                _customersCache = this.customers;
-            }
         });
     </script>
 </dom-module>

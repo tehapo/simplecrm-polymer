@@ -1,0 +1,40 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="customer-data">
+    <template>
+        <iron-ajax id="req" url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+    </template>
+    <script>
+        // Global cache for customer data fetched from the server.
+        var _customersCache = [];
+
+        Polymer({
+            is: 'customer-data',
+
+            properties: {
+                customers: {
+                    type: Array,
+                    notify: true
+                }
+            },
+
+            ready: function() {
+                if (_customersCache.length === 0) {
+                    // Request customer data from server.
+                    console.info('Requesting customer data from the server.');
+                    this.$.req.generateRequest();
+                } else {
+                    // Use cached customer data.
+                    console.info('Using cached customer data.');
+                    this.customers = _customersCache;
+                }
+            },
+
+            _handleResponse: function(event, request) {
+                this.customers = request.response;
+                _customersCache = this.customers;
+            }
+        });
+    </script>
+</dom-module>
