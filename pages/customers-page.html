@@ -1,38 +1,14 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-form/iron-form.html">
-<link rel="import" href="/bower_components/paper-input/paper-input.html">
-<link rel="import" href="/bower_components/paper-radio-group/paper-radio-group.html">
-<link rel="import" href="/bower_components/paper-radio-button/paper-radio-button.html">
-<link rel="import" href="/bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
-<link rel="import" href="/bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="/bower_components/paper-item/paper-item.html">
 <link rel="import" href="/bower_components/vaadin-components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="/elements/customer-data.html">
+<link rel="import" href="/elements/customer-form.html">
 
 <dom-module id="customers-page">
     <template>
         <customer-data customers="{{customers}}"></customer-data>
         <h2>Customers</h2>
 
-        <form is="iron-form" id="customerForm">
-            <paper-input label="First name" value="{{selectedCustomer.firstName}}"></paper-input>
-            <paper-input label="Last name" value="{{selectedCustomer.lastName}}"></paper-input>
-            <paper-input label="Email" value="{{selectedCustomer.email}}"></paper-input>
-            <paper-radio-group selected="{{selectedCustomer.gender}}">
-                <paper-radio-button name="Female">Female</paper-radio-button>
-                <paper-radio-button name="Male">Male</paper-radio-button>
-            </paper-radio-group>
-
-            <paper-dropdown-menu label="Status">
-                <paper-menu class="dropdown-content" attr-for-selected="value" selected="{{selectedCustomer.status}}">
-                    <paper-item value="ImportedLead">ImportedLead</paper-item>
-                    <paper-item value="NotContacted">NotContacted</paper-item>
-                    <paper-item value="Contacted">Contacted</paper-item>
-                    <paper-item value="Customer">Customer</paper-item>
-                    <paper-item value="ClosedLost">ClosedLost</paper-item>
-                </paper-menu>
-            </paper-dropdown-menu>
-        </form>
+        <customer-form id="customerForm"></customer-form>
         <hr />
         <v-grid id="customersGrid">
             <table>
@@ -71,17 +47,10 @@
                 this.$.customersGrid.addEventListener('select', function() {
                     var selected = this.$.customersGrid.selection.selected();
                     if (selected.length > 0) {
-                        this.selectedCustomer = this.$.customersGrid.data.source[selected[0]];
+                        var selectedCustomer = this.$.customersGrid.data.source[selected[0]];
+                        this.$.customerForm.selectedCustomer = selectedCustomer;
                     }
                 }.bind(this));
-
-                this.$$('paper-menu').addEventListener('iron-select', function() {
-                    // Fire iron-activate event to update the paper-dropdown-menu state.
-                    this.fire('iron-activate', {
-                        selected: this.selected,
-                        item: this.selectedItem
-                    }, { cancelable: true });
-                });
             },
 
             _customersChanged: function() {
