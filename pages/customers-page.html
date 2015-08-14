@@ -7,6 +7,7 @@
     <template>
         <customer-data customers="{{customers}}"></customer-data>
         <h2>Customers</h2>
+        <input type="text" placeholder="Filter customers..." value="{{filter::input}}">
 
         <customer-form id="customerForm"></customer-form>
         <hr />
@@ -32,6 +33,11 @@
                 },
                 selectedCustomer: {
                     type: Object
+                },
+                filter: {
+                    type: String,
+                    value: '',
+                    observer: '_filterChanged'
                 }
             },
 
@@ -53,9 +59,31 @@
                 }.bind(this));
             },
 
+            _filterChanged: function() {
+                this._updateDataSource();
+            },
+
             _customersChanged: function() {
+                this._updateDataSource();
+            },
+
+            _updateDataSource: function() {
                 this.async(function() {
-                    this.$.customersGrid.data.source = this.customers;
+                    var filterStr = this.filter.toLowerCase();
+
+                    // Default to all customers;
+                    var filteredCustomers = this.customers;
+
+                    // Apply filter if one is provided.
+                    if (filterStr.length > 0) {
+                        filteredCustomers = this.customers.filter(function(customer) {
+                            var fullName = customer.firstName + ' ' + customer.lastName;
+                            return fullName.toLowerCase().indexOf(filterStr) >= 0;
+                        });
+                    }
+                    if (filteredCustomers) {
+                        this.$.customersGrid.data.source = filteredCustomers;
+                    }
                 });
             },
 
