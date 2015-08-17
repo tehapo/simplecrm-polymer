@@ -31,6 +31,7 @@
     "paper-radio-button": "polymerelements/paper-radio-button#~1.0.6",
     "paper-dropdown-menu": "polymerelements/paper-dropdown-menu#~1.0.1",
     "paper-item": "polymerelements/paper-item#~1.0.2",
-    "paper-button": "polymerelements/paper-button#~1.0.3"
+    "paper-button": "polymerelements/paper-button#~1.0.3",
+    "google-map": "googlewebcomponents/google-map#~1.0.4"
   }
 }
