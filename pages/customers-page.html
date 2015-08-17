@@ -4,10 +4,19 @@
 <link rel="import" href="/elements/customer-form.html">
 
 <dom-module id="customers-page">
+    <style>
+        #customerFilter {
+            float: right;
+            font-size: 120%;
+            height: 40px;
+            padding: 0 10px;
+            margin-top: 20px;
+        }
+    </style>
     <template>
         <customer-data customers="{{customers}}"></customer-data>
+        <input id="customerFilter" type="text" placeholder="Filter customers..." value="{{filter::input}}">
         <h2>Customers</h2>
-        <input type="text" placeholder="Filter customers..." value="{{filter::input}}">
 
         <customer-form id="customerForm"></customer-form>
         <hr />
