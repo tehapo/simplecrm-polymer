@@ -40,7 +40,7 @@
         }
     </style>
     <template>
-        <customer-data customers="{{customers}}"></customer-data>
+        <customer-data id="customerData" customers="{{customers}}"></customer-data>
         <input id="customerFilter" type="text" placeholder="Filter customers..." value="{{filter::input}}">
         <h2>Customers</h2>
 
@@ -88,12 +88,43 @@
                     var selected = this.$.customersGrid.selection.selected();
                     if (selected.length > 0) {
                         var selectedCustomer = this.$.customersGrid.data.source[selected[0]];
-                        this.$.customerForm.selectedCustomer = selectedCustomer;
-                        this.$.customerForm.classList.add('visible');
+                        this.$.customerForm.selectedCustomer = this._cloneCustomer(selectedCustomer);
+
+                        // Handle cancel event by just closing the editor.
+                        this.$.customerForm.addEventListener('cancel', function() {
+                            this._closeEditor();
+                            this._deselect();
+                        }.bind(this));
+
+                        // Handle save by delegating to <customer-data>.
+                        this.$.customerForm.addEventListener('save', function(e) {
+                            this.$.customerData.updateCustomer(e.detail);
+                            this._closeEditor();
+                            this._updateDataSource();
+                        }.bind(this));
+
+                        this._displayEditor();
                     } else {
-                        this.$.customerForm.classList.remove('visible');
+                        this._closeEditor();
                     }
                 }.bind(this));
+            },
+
+            _deselect: function() {
+                var selected = this.$.customersGrid.selection.selected();
+                this.$.customersGrid.selection.deselect(selected);
+            },
+
+            _closeEditor: function() {
+                this.$.customerForm.classList.remove('visible');
+            },
+
+            _displayEditor: function() {
+                this.$.customerForm.classList.add('visible');
+            },
+
+            _cloneCustomer: function(customer) {
+                return JSON.parse(JSON.stringify(customer));
             },
 
             _filterChanged: function() {

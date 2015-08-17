@@ -1,5 +1,6 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/iron-form/iron-form.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
 <link rel="import" href="/bower_components/paper-input/paper-input.html">
 <link rel="import" href="/bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="/bower_components/paper-radio-button/paper-radio-button.html">
@@ -8,6 +9,19 @@
 <link rel="import" href="/bower_components/paper-item/paper-item.html">
 
 <dom-module id="customer-form">
+    <style>
+        #save {
+            margin-left: 0;
+            background: #00b4f0;
+            color: #fff;
+        }
+        #cancel {
+            background: #d9d9d9;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+    </style>
     <template>
         <form is="iron-form" id="customerForm">
             <paper-input label="First name" value="{{selectedCustomer.firstName}}"></paper-input>
@@ -26,6 +40,11 @@
                     </template>
                 </paper-menu>
             </paper-dropdown-menu>
+
+            <div class="buttons">
+                <paper-button id="save" on-click="_save">Save</paper-button>
+                <paper-button id="cancel" on-click="_cancel">Cancel</paper-button>
+            </div>
         </form>
     </template>
     <script>
@@ -54,6 +73,14 @@
                         item: this.selectedItem
                     }, { cancelable: true });
                 });
+            },
+
+            _cancel: function() {
+                this.fire('cancel');
+            },
+
+            _save: function() {
+                this.fire('save', this.selectedCustomer);
             }
         });
     </script>
