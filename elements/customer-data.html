@@ -57,6 +57,19 @@
                     // Just update in-memory array. Should make a request to the REST API.
                     _customersCache[_customersCache.indexOf(customerToUpdate)] = customer;
                 }
+            },
+
+            deleteCustomer: function(customer) {
+                if (!customer || !customer.id) {
+                    return;
+                }
+
+                var customerToDelete = this._findById(customer.id);
+                if (customerToDelete) {
+                    // Just update in-memory array. Should make a request to the REST API.
+                    var indexToDelete = _customersCache.indexOf(customerToDelete);
+                    _customersCache.splice(indexToDelete, 1);
+                }
             }
         });
     </script>
