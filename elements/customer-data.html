@@ -34,6 +34,29 @@
             _handleResponse: function(event, request) {
                 this.customers = request.response;
                 _customersCache = this.customers;
+            },
+
+            _findById: function(id) {
+                var result = _customersCache.filter(function(c) {
+                    return c.id === id;
+                });
+                if (result.length === 1) {
+                    return result[0];
+                } else {
+                    return null;
+                }
+            },
+
+            updateCustomer: function(customer) {
+                if (!customer || !customer.id) {
+                    return;
+                }
+
+                var customerToUpdate = this._findById(customer.id);
+                if (customerToUpdate) {
+                    // Just update in-memory array. Should make a request to the REST API.
+                    _customersCache[_customersCache.indexOf(customerToUpdate)] = customer;
+                }
             }
         });
     </script>
