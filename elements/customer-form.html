@@ -11,15 +11,31 @@
 <dom-module id="customer-form">
     <style>
         #save {
-            margin-left: 0;
             background: #00b4f0;
             color: #fff;
         }
         #cancel {
             background: #d9d9d9;
         }
+        #delete {
+            background: #f00;
+            color: #fff;
+        }
         .buttons {
             margin-top: 10px;
+        }
+        paper-button {
+            margin-left: 0;
+            width: 75px;
+            min-width: 75px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 300px) {
+            paper-button {
+                width: 100%;
+                margin-bottom: 8px;
+            }
         }
     </style>
     <template>
@@ -44,6 +60,7 @@
             <div class="buttons">
                 <paper-button id="save" on-click="_save">Save</paper-button>
                 <paper-button id="cancel" on-click="_cancel">Cancel</paper-button>
+                <paper-button id="delete" on-click="_delete">Delete</paper-button>
             </div>
         </form>
     </template>
@@ -81,6 +98,10 @@
 
             _save: function() {
                 this.fire('save', this.selectedCustomer);
+            },
+
+            _delete: function() {
+                this.fire('delete', this.selectedCustomer);
             }
         });
     </script>

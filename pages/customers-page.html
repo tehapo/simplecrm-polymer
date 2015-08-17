@@ -75,6 +75,12 @@
                 }
             },
 
+            listeners: {
+                'cancel': '_handleCancel',
+                'save': '_handleSave',
+                'delete': '_handleDelete',
+            },
+
             ready: function() {
                 this.$.customersGrid.addEventListener('sort', function() {
                     var grid = this.$.customersGrid;
@@ -89,25 +95,31 @@
                     if (selected.length > 0) {
                         var selectedCustomer = this.$.customersGrid.data.source[selected[0]];
                         this.$.customerForm.selectedCustomer = this._cloneCustomer(selectedCustomer);
-
-                        // Handle cancel event by just closing the editor.
-                        this.$.customerForm.addEventListener('cancel', function() {
-                            this._closeEditor();
-                            this._deselect();
-                        }.bind(this));
-
-                        // Handle save by delegating to <customer-data>.
-                        this.$.customerForm.addEventListener('save', function(e) {
-                            this.$.customerData.updateCustomer(e.detail);
-                            this._closeEditor();
-                            this._updateDataSource();
-                        }.bind(this));
-
                         this._displayEditor();
                     } else {
                         this._closeEditor();
                     }
                 }.bind(this));
+            },
+
+            _handleCancel: function(e, detail) {
+                console.log('cancel event');
+                this._closeEditor();
+                this._deselect();
+            },
+
+            _handleSave: function(e, detail) {
+                console.log('save event');
+                this.$.customerData.updateCustomer(detail);
+                this._closeEditor();
+                this._updateDataSource();
+            },
+
+            _handleDelete: function(e, detail) {
+                console.log('delete event');
+                this.$.customerData.deleteCustomer(detail);
+                this._closeEditor();
+                this._updateDataSource();
             },
 
             _deselect: function() {
