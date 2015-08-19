@@ -2,6 +2,15 @@
 <link rel="import" href="/bower_components/google-map/google-map.html">
 <link rel="import" href="/elements/customer-data.html">
 <dom-module id="map-page">
+    <style>
+        h2 {
+            height: 33px;
+            margin: 20px 0;
+        }
+        google-map {
+            height: calc(100% - 110px);
+        }
+    </style>
     <template>
         <h2>Customers on map</h2>
         <customer-data customers="{{customers}}"></customer-data>
