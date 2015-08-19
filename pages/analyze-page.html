@@ -1,8 +1,18 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="/bower_components/vaadin-charts/v-chart.html">
+<link rel="import" href="/elements/customer-data.html">
+
 <dom-module id="analyze-page">
     <template>
+        <customer-data id="customerData" customers="{{customers}}"></customer-data>
         <h2>Customer analysis</h2>
+
+        <v-chart id="ageChart" vc-type="column">
+            <vc-title>Age</vc-title>
+            <v-series name="Age">
+                <vc-data id="ageData">10, 20, 30, 40</vc-data>
+            </v-series>
+        </v-chart>
 
         <v-chart id="genderChart" vc-type="pie">
             <vc-title>Gender</vc-title>
@@ -23,7 +33,24 @@
     </template>
     <script>
         Polymer({
-            is: 'analyze-page'
+            is: 'analyze-page',
+
+            properties: {
+                customers: {
+                    type: Array,
+                    observer: '_customersChanged'
+                }
+            },
+
+            _customersChanged: function() {
+                var yearMs = 1000 * 60 * 60 * 24 * 365;
+                var ages = this.customers.map(function(customer) {
+                    var ageMs = new Date().getTime() - new Date(customer.birthDate).getTime();
+                    return Math.floor(ageMs / yearMs);
+                });
+                // TODO Add to chart or use data-binding.
+                console.log(ages);
+            }
         });
     </script>
 </dom-module>
