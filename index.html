@@ -105,7 +105,7 @@
                             <iron-icon icon="maps:place"></iron-icon>
                             <span>Map</span>
                         </a>
-                        <a data-route="about" href="/">
+                        <a data-route="about" href="/about">
                             <iron-icon icon="home"></iron-icon>
                             <span>About</span>
                         </a>
@@ -148,11 +148,6 @@
                 });
 
                 // Set up the application routes.
-                page('/', function() {
-                    app.route = 'about';
-                    app.setMainContent('about-page');
-                });
-
                 page('/customers', function() {
                     app.route = 'customers';
                     app.setMainContent('customers-page');
@@ -167,6 +162,13 @@
                     app.route = 'map';
                     app.setMainContent('map-page');
                 });
+
+                var defaultRoute = function() {
+                    app.route = 'about';
+                    app.setMainContent('about-page');
+                };
+                page('/about', defaultRoute);
+                page('*', defaultRoute);
 
                 // Use #! in urls.
                 page({
