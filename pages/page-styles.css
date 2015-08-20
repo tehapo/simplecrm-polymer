@@ -1,0 +1,11 @@
+/* Common styles for all pages. */
+h2 {
+    color: #333333;
+    margin-top: 0;
+}
+.header {
+    height: 55px;
+}
+.content {
+    height: calc(100% - 55px);
+}

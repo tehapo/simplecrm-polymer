@@ -3,33 +3,39 @@
 <link rel="import" href="/elements/customer-data.html">
 
 <dom-module id="analyze-page">
+    <link rel="import" type="css" href="page-styles.css">
     <template>
         <customer-data id="customerData" customers="{{customers}}"></customer-data>
-        <h2>Customer analysis</h2>
 
-        <v-chart id="ageChart" vc-type="column">
-            <vc-title>Age</vc-title>
-            <v-series name="Age">
-                <vc-data id="ageData">10, 20, 30, 40</vc-data>
-            </v-series>
-        </v-chart>
+        <div class="header">
+            <h2>Customer analysis</h2>
+        </div>
 
-        <v-chart id="genderChart" vc-type="pie">
-            <vc-title>Gender</vc-title>
-            <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
-            <vc-plot-options>
-                <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
-                    <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
-                </vc-pie>
-            </vc-plot-options>
+        <div class="content">
+            <v-chart id="ageChart" vc-type="column">
+                <vc-title>Age</vc-title>
+                <v-series name="Age">
+                    <vc-data id="ageData">10, 20, 30, 40</vc-data>
+                </v-series>
+            </v-chart>
 
-            <v-series id="genderSeries" vc-name="Gender">
-                <vc-data id="genderSeriesData">
-                    ["Men",   40.0],
-                    ["Women", 60.0]
-                </vc-data>
-            </v-series>
-        </v-chart>
+            <v-chart id="genderChart" vc-type="pie">
+                <vc-title>Gender</vc-title>
+                <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
+                <vc-plot-options>
+                    <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
+                        <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
+                    </vc-pie>
+                </vc-plot-options>
+
+                <v-series id="genderSeries" vc-name="Gender">
+                    <vc-data id="genderSeriesData">
+                        ["Men",   40.0],
+                        ["Women", 60.0]
+                    </vc-data>
+                </v-series>
+            </v-chart>
+        </div>
     </template>
     <script>
         Polymer({
