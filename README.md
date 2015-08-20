@@ -5,5 +5,5 @@ This is a [Polymer](https://www.polymer-project.org/) version of an example appl
 Features of this application:
 
  * Responsive UI created using [Polymer elements](https://elements.polymer-project.org/) and [Vaadin Components](https://vaadin.com/components).
- * Routing between views is implemented using the [&lt;app-router&gt;](https://github.com/erikringsmuth/app-router) element.
+ * Routing between views is done using the [Page.js](https://visionmedia.github.io/page.js/) client-side router.
  * A static file is used as the data source, but it could easily be replaced with a REST API.

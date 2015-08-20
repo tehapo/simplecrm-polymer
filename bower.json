@@ -15,7 +15,6 @@
   ],
   "dependencies": {
     "vaadin-components": "~0.3.0-beta5",
-    "app-router": "~2.6.1",
     "paper-drawer-panel": "polymerelements/paper-drawer-panel#~1.0.3",
     "paper-menu": "polymerelements/paper-menu#~1.1.0",
     "paper-header-panel": "polymerelements/paper-header-panel#~1.0.3",
