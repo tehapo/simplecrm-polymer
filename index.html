@@ -8,8 +8,11 @@
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,700" rel="stylesheet" type="text/css">
         <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
-        <!-- Router -->
-        <link rel="import" href="bower_components/app-router/app-router.html">
+        <!-- Routing and pages -->
+        <link rel="import" href="pages/about-page.html">
+        <link rel="import" href="pages/analyze-page.html">
+        <link rel="import" href="pages/customers-page.html">
+        <link rel="import" href="pages/map-page.html">
 
         <!-- Elements -->
         <link rel="import" href="bower_components/paper-drawer-panel/paper-drawer-panel.html">
@@ -65,44 +68,83 @@
         </style>
     </head>
     <body unresolved class="fullbleed layout vertical">
-        <paper-drawer-panel>
+        <template is="dom-bind" id="app">
+            <paper-drawer-panel>
 
-            <!-- Sidebar menu -->
-            <paper-header-panel drawer>
-                <paper-toolbar>
-                    <span>SimpleCRM</span>
-                </paper-toolbar>
-                <paper-menu>
-                    <a href="#/customers">
-                        <iron-icon icon="social:people"></iron-icon>
-                        <span>Customers</span>
-                    </a>
-                    <a href="#/analyze">
-                        <iron-icon icon="assessment"></iron-icon>
-                        <span>Analyze</span>
-                    </a>
-                    <a href="#/map">
-                        <iron-icon icon="maps:place"></iron-icon>
-                        <span>Map</span>
-                    </a>
-                    <a href="#/about">
-                        <iron-icon icon="home"></iron-icon>
-                        <span>About</span>
-                    </a>
-                </paper-menu>
-            </paper-header-panel>
+                <!-- Sidebar menu -->
+                <paper-header-panel drawer>
+                    <paper-toolbar>
+                        <span>SimpleCRM</span>
+                    </paper-toolbar>
+                    <paper-menu attr-for-selected="data-route" selected="{{route}}">
+                        <a data-route="customers" href="/customers">
+                            <iron-icon icon="social:people"></iron-icon>
+                            <span>Customers</span>
+                        </a>
+                        <a data-route="analyze" href="/analyze">
+                            <iron-icon icon="assessment"></iron-icon>
+                            <span>Analyze</span>
+                        </a>
+                        <a data-route="map" href="/map">
+                            <iron-icon icon="maps:place"></iron-icon>
+                            <span>Map</span>
+                        </a>
+                        <a data-route="about" href="/">
+                            <iron-icon icon="home"></iron-icon>
+                            <span>About</span>
+                        </a>
+                    </paper-menu>
+                </paper-header-panel>
 
-            <!-- Main content -->
-            <div id="main" main>
-                <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
-                <app-router>
-                    <app-route path="/customers" import="/pages/customers-page.html"></app-route>
-                    <app-route path="/analyze" import="/pages/analyze-page.html"></app-route>
-                    <app-route path="/map" import="/pages/map-page.html"></app-route>
-                    <app-route path="*" import="/pages/about-page.html"></app-route>
-                </app-router>
-            </div>
+                <!-- Main content -->
+                <div id="main" main>
+                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                    <div id="main-content"></div>
+                </div>
 
-        </paper-drawer-panel>
+            </paper-drawer-panel>
+        </template>
+
+        <script src="/bower_components/page/page.js"></script>
+        <script>
+            var app = document.querySelector('#app');
+            function setMainContent(element) {
+                document.querySelector('#main-content').innerHTML = '<' + element + '></' + element + '>';
+            }
+
+            app.addEventListener('dom-change', function() {
+                page('*', function(ctx, next) {
+                    // For debugging purposes.
+                    console.log(ctx);
+                    next();
+                });
+
+                // Set up the application routes.
+                page('/', function() {
+                    app.route = 'about';
+                    setMainContent('about-page');
+                });
+
+                page('/customers', function() {
+                    app.route = 'customers';
+                    setMainContent('customers-page');
+                });
+
+                page('/analyze', function() {
+                    app.route = 'analyze';
+                    setMainContent('analyze-page');
+                });
+
+                page('/map', function() {
+                    app.route = 'map';
+                    setMainContent('map-page');
+                });
+
+                // Use #! in urls.
+                page({
+                    hashbang: true
+                });
+            });
+        </script>
     </body>
 </html>
