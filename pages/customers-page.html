@@ -110,20 +110,17 @@
             },
 
             _handleCancel: function(e, detail) {
-                console.log('cancel event');
                 this._closeEditor();
                 this._deselect();
             },
 
             _handleSave: function(e, detail) {
-                console.log('save event');
                 this.$.customerData.updateCustomer(detail);
                 this._closeEditor();
                 this._updateDataSource();
             },
 
             _handleDelete: function(e, detail) {
-                console.log('delete event');
                 this.$.customerData.deleteCustomer(detail);
                 this._closeEditor();
                 this._updateDataSource();
