@@ -1,9 +1,9 @@
-<link rel="import" href="/bower_components/polymer/polymer.html">
-<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="customer-data">
     <template>
-        <iron-ajax id="req" url="/data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
+        <iron-ajax id="req" url="../data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
     </template>
     <script>
         // Global cache for customer data fetched from the server.
