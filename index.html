@@ -89,7 +89,7 @@
                     <paper-toolbar>
                         <span>SimpleCRM</span>
                     </paper-toolbar>
-                    <paper-menu attr-for-selected="data-route" selected="{{route}}">
+                    <paper-menu attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
                         <a data-route="customers" href="/customers">
                             <iron-icon icon="social:people"></iron-icon>
                             <span>Customers</span>
@@ -121,9 +121,18 @@
         <script src="/bower_components/page/page.js"></script>
         <script>
             var app = document.querySelector('#app');
-            function setMainContent(element) {
+
+            app.setMainContent = function(element) {
                 document.querySelector('#main-content').innerHTML = '<' + element + '></' + element + '>';
-            }
+            };
+
+            app.onMenuSelect = function() {
+                // Close the drawer after selection on mobile.
+                var drawerPanel = document.querySelector('paper-drawer-panel');
+                if (drawerPanel.narrow) {
+                    drawerPanel.closeDrawer();
+                }
+            };
 
             app.addEventListener('dom-change', function() {
                 page('*', function(ctx, next) {
@@ -138,22 +147,22 @@
                 // Set up the application routes.
                 page('/', function() {
                     app.route = 'about';
-                    setMainContent('about-page');
+                    app.setMainContent('about-page');
                 });
 
                 page('/customers', function() {
                     app.route = 'customers';
-                    setMainContent('customers-page');
+                    app.setMainContent('customers-page');
                 });
 
                 page('/analyze', function() {
                     app.route = 'analyze';
-                    setMainContent('analyze-page');
+                    app.setMainContent('analyze-page');
                 });
 
                 page('/map', function() {
                     app.route = 'map';
-                    setMainContent('map-page');
+                    app.setMainContent('map-page');
                 });
 
                 // Use #! in urls.
