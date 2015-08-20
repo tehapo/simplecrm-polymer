@@ -41,3 +41,10 @@ provides methods that can be used to update or delete customer entries.
 
 Currently the data is provided as a static JSON file (```data/customers-snapshot.json```), but the ```<customer-data>``` element
 could be upgraded to use a real REST service without too much effort.
+
+## Data Editing
+
+Selecting a row in the Customers page opens up an editor form that is constructed from various ```<paper-*>``` elements that are
+contained in the ```<customer-form>``` element. The ```<customer-form>``` fires three events corresponding to the buttons
+in the form. These events are ```save```, ```cancel``` and ```delete```. The ```<customer-page>``` registers itself to
+listen for these events and reacts accordingly.
