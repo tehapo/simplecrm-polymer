@@ -7,3 +7,37 @@ Features of this application:
  * Responsive UI created using [Polymer elements](https://elements.polymer-project.org/) and [Vaadin Components](https://vaadin.com/components).
  * Routing between views is done using the [Page.js](https://visionmedia.github.io/page.js/) client-side router.
  * A static file is used as the data source, but it could easily be replaced with a REST API.
+
+## Views
+
+The application consists of four views.
+
+ * About (```pages/about-page.html```)
+ * Customers (```pages/customers-page.html```)
+ * Analyze (```pages/analyze-page.html```)
+ * Map (```pages/map-page.html```)
+
+Each view is a Polymer element that is dynamically inserted into DOM of the main page according to the routing configuration.
+
+## Routing
+
+Routing between views is done using the [Page.js](https://visionmedia.github.io/page.js/) client-side router.
+During navigation a CSS class ```transition``` is defined for the main content which enables a transition animation
+between different views. See ```index.html``` for the routing configuration.
+
+#### Routing Example
+```javascript
+page('/customers', function() {
+    app.route = 'customers';
+    app.setMainContent('customers-page');
+});
+```
+
+## Data Access
+
+Accessing the customer data is done with ```<iron-ajax>``` element. Its usage is wrapped within ```<customer-data>``` element
+which maintains an in-memory cache of the data to prevent requesting the same data multiple times. That custom element also
+provides methods that can be used to update or delete customer entries.
+
+Currently the data is provided as a static JSON file (```data/customers-snapshot.json```), but the ```<customer-data>``` element
+could be upgraded to use a real REST service without too much effort.
