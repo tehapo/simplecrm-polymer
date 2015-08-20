@@ -27,11 +27,14 @@
         <link rel="import" href="bower_components/iron-icons/maps-icons.html">
         <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
         <style is="custom-style">
+            :root {
+                --default-primary-color: #00b4f0;
+            }
             body {
                 font-family: 'Open Sans', Helvetica, Arial, sans-serif;
             }
             paper-toolbar {
-                background: #00b4f0;
+                background: var(--default-primary-color);
                 color: #fff;
             }
             paper-button {
