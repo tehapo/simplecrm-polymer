@@ -70,6 +70,13 @@
             #main #main-content {
                 height: 100%;
                 box-sizing: border-box;
+                transition: all 300ms;
+            }
+            #main #main-content.transition {
+                -webkit-transform: translateX(50px);
+                -ms-transform: translateX(50px);
+                transform: translateX(50px);
+                opacity: 0;
             }
         </style>
     </head>
@@ -120,9 +127,12 @@
 
             app.addEventListener('dom-change', function() {
                 page('*', function(ctx, next) {
-                    // For debugging purposes.
-                    console.log(ctx);
-                    next();
+                    var mainContent = document.querySelector('#main-content');
+                    mainContent.classList.add('transition');
+                    setTimeout(function() {
+                        mainContent.classList.remove('transition');
+                        next();
+                    }, 300);
                 });
 
                 // Set up the application routes.
