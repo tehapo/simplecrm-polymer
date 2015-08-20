@@ -123,7 +123,9 @@
             _handleDelete: function(e, detail) {
                 this.$.customerData.deleteCustomer(detail);
                 this._closeEditor();
-                this._updateDataSource();
+
+                // Notify Grid about changed data.
+                this.$.customersGrid.data.clearCache(this.$.customersGrid.data.source.length - 1);
             },
 
             _deselect: function() {
