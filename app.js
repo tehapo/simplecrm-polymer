@@ -41,6 +41,10 @@ app.addEventListener('dom-change', function() {
         app.route = 'about';
         app.setMainContent('about-page');
     });
+    page('*', function() {
+        app.route = 'about';
+        app.setMainContent('about-page');
+    });
 
     // Define the base path for the cases we're not running the app in '/'.
     var path = document.location.pathname;
