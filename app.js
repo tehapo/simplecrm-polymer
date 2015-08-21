@@ -37,13 +37,17 @@ app.addEventListener('dom-change', function() {
         app.route = 'map';
         app.setMainContent('map-page');
     });
-
-    var defaultRoute = function() {
+    page('/', function() {
         app.route = 'about';
         app.setMainContent('about-page');
-    };
-    page('/about', defaultRoute);
-    page('*', defaultRoute);
+    });
+
+    // Define the base path for the cases we're not running the app in '/'.
+    var path = document.location.pathname;
+    if (path !== '/') {
+        path = path.substring(0, document.location.pathname.length - 1);
+        page.base(path);
+    }
 
     // Use #! in urls.
     page({
