@@ -23,7 +23,7 @@ Each view is a Polymer element that is dynamically inserted into DOM of the main
 
 Routing between views is done using the [Page.js](https://visionmedia.github.io/page.js/) client-side router.
 During navigation a CSS class ```transition``` is defined for the main content which enables a transition animation
-between different views. See ```index.html``` for the routing configuration.
+between different views. See ```app.js``` for the routing configuration.
 
 #### Routing Example
 ```javascript
