@@ -12,10 +12,16 @@ Features of this application:
 
 The application consists of four views.
 
- * About (```pages/about-page.html```)
- * Customers (```pages/customers-page.html```)
- * Analyze (```pages/analyze-page.html```)
- * Map (```pages/map-page.html```)
+ * **About** (```pages/about-page.html```)
+    * Simple HTML view.
+ * **Customers** (```pages/customers-page.html```)
+    * Table of customers displayed using ```<v-grid>```.
+    * Selecting a row opens up an editor for customer details.
+ * **Analyze** (```pages/analyze-page.html```)
+    * Set of charts based on customer data.
+    * Charts are displayed with ```<v-charts>```.
+ * **Map** (```pages/map-page.html```)
+    * Map of customer locations displayed with ```<google-map>``` element.
 
 Each view is a Polymer element that is dynamically inserted into DOM of the main page according to the routing configuration.
 
@@ -44,7 +50,8 @@ could be upgraded to use a real REST service without too much effort.
 
 ## Data Editing
 
-Selecting a row in the Customers page opens up an editor form that is constructed from various ```<paper-*>``` elements that are
-contained in the ```<customer-form>``` element. The ```<customer-form>``` fires three events corresponding to the buttons
-in the form. These events are ```save```, ```cancel``` and ```delete```. The ```<customer-page>``` registers itself to
+Selecting a row in the Customers view opens up an editor form that is constructed from various ```<paper-*>``` elements.
+The editor is contained in the ```<customer-form>``` element. The ```<customer-form>``` fires three kinds of events
+corresponding to the buttons in the form.
+These events are ```save```, ```cancel``` and ```delete```. The containing ```<customer-page>``` registers itself to
 listen for these events and reacts accordingly.
