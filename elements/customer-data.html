@@ -6,71 +6,73 @@
         <iron-ajax id="req" url="../data/customers-snapshot.json" handle-as="json" on-response="_handleResponse"></iron-ajax>
     </template>
     <script>
-        // Global cache for customer data fetched from the server.
-        var _customersCache = [];
+        (function() {
+            // Global cache for customer data fetched from the server.
+            var _customersCache = [];
 
-        Polymer({
-            is: 'customer-data',
+            Polymer({
+                is: 'customer-data',
 
-            properties: {
-                customers: {
-                    type: Array,
-                    notify: true
+                properties: {
+                    customers: {
+                        type: Array,
+                        notify: true
+                    }
+                },
+
+                ready: function() {
+                    if (_customersCache.length === 0) {
+                        // Request customer data from server.
+                        console.info('Requesting customer data from the server.');
+                        this.$.req.generateRequest();
+                    } else {
+                        // Use cached customer data.
+                        console.info('Using cached customer data.');
+                        this.customers = _customersCache;
+                    }
+                },
+
+                _handleResponse: function(event, request) {
+                    this.customers = request.response;
+                    _customersCache = this.customers;
+                },
+
+                _findById: function(id) {
+                    var result = _customersCache.filter(function(c) {
+                        return c.id === id;
+                    });
+                    if (result.length === 1) {
+                        return result[0];
+                    } else {
+                        return null;
+                    }
+                },
+
+                updateCustomer: function(customer) {
+                    if (!customer || !customer.id) {
+                        return;
+                    }
+
+                    var customerToUpdate = this._findById(customer.id);
+                    if (customerToUpdate) {
+                        // Just update in-memory array. Should make a request to the REST API.
+                        _customersCache[_customersCache.indexOf(customerToUpdate)] = customer;
+                    }
+                },
+
+                deleteCustomer: function(customer) {
+                    if (!customer || !customer.id) {
+                        return;
+                    }
+
+                    var customerToDelete = this._findById(customer.id);
+                    if (customerToDelete) {
+                        // Just update in-memory array. Should make a request to the REST API.
+                        var indexToDelete = _customersCache.indexOf(customerToDelete);
+                        _customersCache.splice(indexToDelete, 1);
+                    }
                 }
-            },
-
-            ready: function() {
-                if (_customersCache.length === 0) {
-                    // Request customer data from server.
-                    console.info('Requesting customer data from the server.');
-                    this.$.req.generateRequest();
-                } else {
-                    // Use cached customer data.
-                    console.info('Using cached customer data.');
-                    this.customers = _customersCache;
-                }
-            },
-
-            _handleResponse: function(event, request) {
-                this.customers = request.response;
-                _customersCache = this.customers;
-            },
-
-            _findById: function(id) {
-                var result = _customersCache.filter(function(c) {
-                    return c.id === id;
-                });
-                if (result.length === 1) {
-                    return result[0];
-                } else {
-                    return null;
-                }
-            },
-
-            updateCustomer: function(customer) {
-                if (!customer || !customer.id) {
-                    return;
-                }
-
-                var customerToUpdate = this._findById(customer.id);
-                if (customerToUpdate) {
-                    // Just update in-memory array. Should make a request to the REST API.
-                    _customersCache[_customersCache.indexOf(customerToUpdate)] = customer;
-                }
-            },
-
-            deleteCustomer: function(customer) {
-                if (!customer || !customer.id) {
-                    return;
-                }
-
-                var customerToDelete = this._findById(customer.id);
-                if (customerToDelete) {
-                    // Just update in-memory array. Should make a request to the REST API.
-                    var indexToDelete = _customersCache.indexOf(customerToDelete);
-                    _customersCache.splice(indexToDelete, 1);
-                }
-            }
-        });
+            });
+        })();
     </script>
 </dom-module>
