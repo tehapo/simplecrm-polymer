@@ -4,6 +4,32 @@
 
 <dom-module id="analyze-page">
     <link rel="import" type="css" href="page-styles.css">
+    <style>
+        .ageWrapper {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 80px;
+        }
+        .statusWrapper {
+            height: 300px;
+            width: 50%;
+            margin-bottom: 80px;
+            float: left;
+            clear: left;
+        }
+        .genderWrapper {
+            height: 300px;
+            width: 50%;
+            margin-bottom: 80px;
+            float: left;
+        }
+        @media (max-width: 700px) {
+            .statusWrapper,
+            .genderWrapper {
+                width: 100%;
+            }
+        }
+    </style>
     <template>
         <customer-data id="customerData" customers="{{customers}}"></customer-data>
 
@@ -12,29 +38,40 @@
         </div>
 
         <div class="content">
-            <v-chart id="ageChart" vc-type="column">
-                <vc-title>Age</vc-title>
-                <v-series name="Age">
-                    <vc-data id="ageData">10, 20, 30, 40</vc-data>
-                </v-series>
-            </v-chart>
 
-            <v-chart id="genderChart" vc-type="pie">
-                <vc-title>Gender</vc-title>
-                <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
-                <vc-plot-options>
-                    <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
-                        <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
-                    </vc-pie>
-                </vc-plot-options>
+            <div class="ageWrapper">
+                <v-chart id="ageChart" vc-type="column">
+                    <vc-title>Age</vc-title>
+                    <vc-x-axis>
+                        <vc-categories>0-15, 15-30, 30-60, 60-100</vc-categories>
+                    </vc-x-axis>
+                    <v-series id="ageSeries" vc-name="Ages"></v-series>
+                </v-chart>
+            </div>
 
-                <v-series id="genderSeries" vc-name="Gender">
-                    <vc-data id="genderSeriesData">
-                        ["Men",   40.0],
-                        ["Women", 60.0]
-                    </vc-data>
-                </v-series>
-            </v-chart>
+            <div class="statusWrapper">
+                <v-chart id="statusChart" vc-type="funnel">
+                    <vc-title>Sales funnel</vc-title>
+                    <vc-plot-options>
+                        <vc-series vc-width="60%" vc-neck-width="25%" vc-neck-height="25%"></vc-series>
+                    </vc-plot-options>
+                    <v-series id="statusSeries" vc-name="Status"></v-series>
+                </v-chart>
+            </div>
+
+            <div class="genderWrapper">
+                <v-chart id="genderChart" vc-type="pie">
+                    <vc-title>Gender</vc-title>
+                    <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
+                    <vc-plot-options>
+                        <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
+                            <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
+                        </vc-pie>
+                    </vc-plot-options>
+
+                    <v-series id="genderSeries" vc-name="Gender"></v-series>
+                </v-chart>
+            </div>
         </div>
     </template>
     <script>
@@ -48,14 +85,78 @@
                 }
             },
 
-            _customersChanged: function() {
+            _getAge: function(customer) {
                 var yearMs = 1000 * 60 * 60 * 24 * 365;
-                var ages = this.customers.map(function(customer) {
-                    var ageMs = new Date().getTime() - new Date(customer.birthDate).getTime();
-                    return Math.floor(ageMs / yearMs);
-                });
-                // TODO Add to chart or use data-binding.
-                console.log(ages);
+                var ageMs = new Date().getTime() - new Date(customer.birthDate).getTime();
+                return Math.floor(ageMs / yearMs);
+            },
+
+            _updateAgeChart: function() {
+                var ageGroups = [
+                    { min: 0, max: 15, count: 0 },
+                    { min: 15, max: 30, count: 0 },
+                    { min: 30, max: 60, count: 0 },
+                    { min: 60, max: 100, count: 0 }
+                ];
+                // Count number of customers in each group.
+                ageGroups = this.customers.reduce(function(ageGroups, customer) {
+                    for (var j  = 0; j < ageGroups.length; j++) {
+                        var ageGroup = ageGroups[j];
+                        var age = this._getAge(customer);
+                        if (age >= ageGroup.min && age < ageGroup.max) {
+                            ageGroup.count++;
+                            break;
+                        }
+                    }
+                    return ageGroups;
+                }.bind(this), ageGroups);
+
+                // Map the groups to numbers for the chart.
+                this.$.ageSeries.vcData = ageGroups.map(function(group) { return group.count; });
+            },
+
+            _updateStatusChart: function() {
+                // Count the number of customers in eash status
+                var data = this.customers.reduce(function(previousValue, customer) {
+                    if (previousValue[customer.status]) {
+                        previousValue[customer.status]++;
+                    } else {
+                        previousValue[customer.status] = 1;
+                    }
+                    return previousValue;
+                }, {});
+
+                // Create the series for the funnel chart.
+                var dataSeries = [];
+                dataSeries.push(['Imported lead', data['ImportedLead'] || 0]);
+                dataSeries.push(['Not Contacted', data['NotContacted'] || 0]);
+                dataSeries.push(['Contacted', data['Contacted'] || 0]);
+                dataSeries.push(['Customer', data['Customer'] || 0]);
+                this.$.statusSeries.vcData = dataSeries;
+            },
+
+            _updateGenderChart: function() {
+                // Count the number of customers for each gender.
+                var data = this.customers.reduce(function(previousValue, customer) {
+                    if (previousValue[customer.gender]) {
+                        previousValue[customer.gender]++;
+                    } else {
+                        previousValue[customer.gender] = 1;
+                    }
+                    return previousValue;
+                }, {});
+
+                // Create the series for the pie chart.
+                var dataSeries = [];
+                dataSeries.push(['Men', data['Male']]);
+                dataSeries.push(['Women', data['Female']]);
+                this.$.genderSeries.vcData = dataSeries;
+            },
+
+            _customersChanged: function() {
+                this._updateAgeChart();
+                this._updateStatusChart();
+                this._updateGenderChart();
             }
         });
     </script>
