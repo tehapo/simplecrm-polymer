@@ -55,3 +55,9 @@ The editor is contained in the ```<customer-form>``` element. The ```<customer-f
 corresponding to the buttons in the form.
 These events are ```save```, ```cancel``` and ```delete```. The containing ```<customer-page>``` registers itself to
 listen for these events and reacts accordingly.
+
+## Charts
+
+The Analyze view displays couple of visualizations from the customer data. These are created using the web components
+API of [Vaadin Charts](https://vaadin.com/add-ons/charts). The actual calculation of data presented in these charts is done
+in JavaScript functions of the ```<analyze-page>```.
