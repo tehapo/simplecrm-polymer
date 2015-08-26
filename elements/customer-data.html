@@ -34,7 +34,20 @@
 
                 _handleResponse: function(event, request) {
                     this.customers = request.response;
+                    this._generateDemoData();
                     _customersCache = this.customers;
+                },
+
+                _generateDemoData: function() {
+                    // Generate some random data for demo purposes.
+                    this.customers.forEach(function(customer) {
+                        var points = [];
+                        for (var i = 0; i < 5; i++) {
+                            points.push(Math.floor(Math.random() * 15) + 5);
+                        }
+                        customer.estimate = points;
+                        customer.progress = Math.floor(Math.random() * 60) + 10;
+                    });
                 },
 
                 _findById: function(id) {

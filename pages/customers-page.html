@@ -1,11 +1,13 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/vaadin-components/vaadin-grid/vaadin-grid.html">
+<link rel="import" href="../bower_components/progress-bubble/progress-bubble.html">
 <link rel="import" href="../elements/customer-data.html">
 <link rel="import" href="../elements/customer-form.html">
+<link rel="import" href="../elements/demo-sparkline.html">
 
 <dom-module id="customers-page">
     <link rel="import" type="css" href="page-styles.css">
-    <style>
+    <style is="custom-style">
         #customerFilter {
             float: right;
             font-size: 120%;
@@ -43,6 +45,14 @@
             height: 100%;
             font-size: 14px;
         }
+        #customersGrid /deep/ progress-bubble {
+            width: 35px;
+            height: 35px;
+            font-size: 11px;
+            line-height: 11px;
+            color: #aaa;
+            text-shadow: none;
+        }
     </style>
     <template>
         <customer-data id="customerData" customers="{{customers}}"></customer-data>
@@ -58,6 +68,8 @@
                         <col name="lastName" header-text="Last name" sortable="true">
                         <col name="email" header-text="Email" sortable="true">
                         <col name="status" header-text="Status" sortable="true">
+                        <col name="estimate" header-text="Estimate" sortable="false">
+                        <col name="progress" header-text="Progress" sortable="true">
                     </colgroup>
                 </table>
             </v-grid>
@@ -108,6 +120,13 @@
                         this._closeEditor();
                     }
                 }.bind(this));
+
+                this.$.customersGrid.columns[4].renderer = function(cell) {
+                    cell.element.innerHTML = '<demo-sparkline width="60" height="20" points="' + JSON.stringify(cell.data) + '"></demo-sparkline>';
+                };
+                this.$.customersGrid.columns[5].renderer = function(cell) {
+                    cell.element.innerHTML = '<progress-bubble max="100" value="' + cell.data + '">' + cell.data + '%</progress-bubble>';
+                };
             },
 
             _handleCancel: function(e, detail) {
