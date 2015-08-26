@@ -7,7 +7,7 @@
 
 <dom-module id="customers-page">
     <link rel="import" type="css" href="page-styles.css">
-    <style is="custom-style">
+    <style>
         #customerFilter {
             float: right;
             font-size: 120%;
@@ -45,7 +45,7 @@
             height: 100%;
             font-size: 14px;
         }
-        #customersGrid /deep/ progress-bubble {
+        #customersGrid ::content progress-bubble {
             width: 35px;
             height: 35px;
             font-size: 11px;
@@ -137,7 +137,7 @@
             _handleSave: function(e, detail) {
                 this.$.customerData.updateCustomer(detail);
                 this._closeEditor();
-                this._updateDataSource();
+                this.$.customersGrid.data.clearCache();
             },
 
             _handleDelete: function(e, detail) {
