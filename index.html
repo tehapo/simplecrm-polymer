@@ -85,6 +85,11 @@
                 transform: translateX(50px);
                 opacity: 0;
             }
+            #menu-toggle {
+                float: left;
+                padding-top: 5px;
+                padding-left: 0;
+            }
         </style>
     </head>
     <body unresolved class="fullbleed layout vertical">
@@ -118,7 +123,7 @@
 
                 <!-- Main content -->
                 <div id="main" main>
-                    <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+                    <paper-icon-button id="menu-toggle" icon="menu" paper-drawer-toggle></paper-icon-button>
                     <div id="main-content"></div>
                 </div>
 
