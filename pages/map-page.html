@@ -3,13 +3,13 @@
 <link rel="import" href="../elements/customer-data.html">
 <dom-module id="map-page">
     <link rel="import" type="css" href="page-styles.css">
-    <style>
-        google-map {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
     <template>
+        <style>
+            google-map {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
         <customer-data customers="{{customers}}"></customer-data>
         <div class="header">
             <h2>Customers on map</h2>

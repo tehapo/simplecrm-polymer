@@ -9,36 +9,36 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="customer-form">
-    <style is="custom-style">
-        #save {
-            background: var(--default-primary-color);
-            color: #fff;
-        }
-        #cancel {
-            background: #d9d9d9;
-        }
-        #delete {
-            background: #f00;
-            color: #fff;
-        }
-        .buttons {
-            margin-top: 10px;
-        }
-        paper-button {
-            margin-left: 0;
-            width: 75px;
-            min-width: 75px;
-            font-size: 15px;
-        }
-
-        @media (max-width: 300px) {
-            paper-button {
-                width: 100%;
-                margin-bottom: 8px;
-            }
-        }
-    </style>
     <template>
+        <style>
+            #save {
+                background: var(--default-primary-color);
+                color: #fff;
+            }
+            #cancel {
+                background: #d9d9d9;
+            }
+            #delete {
+                background: #f00;
+                color: #fff;
+            }
+            .buttons {
+                margin-top: 10px;
+            }
+            paper-button {
+                margin-left: 0;
+                width: 75px;
+                min-width: 75px;
+                font-size: 15px;
+            }
+
+            @media (max-width: 300px) {
+                paper-button {
+                    width: 100%;
+                    margin-bottom: 8px;
+                }
+            }
+        </style>
         <form is="iron-form" id="customerForm">
             <paper-input label="First name" value="{{selectedCustomer.firstName}}"></paper-input>
             <paper-input label="Last name" value="{{selectedCustomer.lastName}}"></paper-input>

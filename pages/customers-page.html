@@ -7,54 +7,54 @@
 
 <dom-module id="customers-page">
     <link rel="import" type="css" href="page-styles.css">
-    <style>
-        #customerFilter {
-            float: right;
-            font-size: 120%;
-            height: 29px;
-            padding: 0 10px;
-            max-width: 20vw;
-        }
-        #customerForm {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            max-width: 100vw;
-            height: 100vh;
-            overflow: scroll;
-            box-sizing: border-box;
-            box-shadow: 0px 0 20px rgba(0, 0, 0, 0.6);
-            z-index: 10;
-            background: #fff;
-            padding: 20px;
-            opacity: 0;
-            -webkit-transform: translateX(300px);
-            -ms-transform: translateX(300px);
-            transform: translateX(300px);
-            -webkit-transition: all 300ms;
-            transition: all 300ms;
-        }
-        #customerForm.visible {
-            opacity: 1;
-            -webkit-transform: none;
-            -ms-transform: none;
-            transform: none;
-        }
-        #customersGrid {
-            height: 100%;
-            font-size: 14px;
-        }
-        #customersGrid ::content progress-bubble {
-            width: 35px;
-            height: 35px;
-            font-size: 11px;
-            line-height: 11px;
-            color: #aaa;
-            text-shadow: none;
-        }
-    </style>
     <template>
+        <style>
+            #customerFilter {
+                float: right;
+                font-size: 120%;
+                height: 29px;
+                padding: 0 10px;
+                max-width: 20vw;
+            }
+            #customerForm {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 300px;
+                max-width: 100vw;
+                height: 100vh;
+                overflow: scroll;
+                box-sizing: border-box;
+                box-shadow: 0px 0 20px rgba(0, 0, 0, 0.6);
+                z-index: 10;
+                background: #fff;
+                padding: 20px;
+                opacity: 0;
+                -webkit-transform: translateX(300px);
+                -ms-transform: translateX(300px);
+                transform: translateX(300px);
+                -webkit-transition: all 300ms;
+                transition: all 300ms;
+            }
+            #customerForm.visible {
+                opacity: 1;
+                -webkit-transform: none;
+                -ms-transform: none;
+                transform: none;
+            }
+            #customersGrid {
+                height: 100%;
+                font-size: 14px;
+            }
+            #customersGrid ::content progress-bubble {
+                width: 35px;
+                height: 35px;
+                font-size: 11px;
+                line-height: 11px;
+                color: #aaa;
+                text-shadow: none;
+            }
+        </style>
         <customer-data id="customerData" customers="{{customers}}"></customer-data>
         <div class="header">
             <input id="customerFilter" type="text" placeholder="Filter customers..." value="{{filter::input}}">
