@@ -8,6 +8,8 @@ Features of this application:
  * Routing between views is done using the [Page.js](https://visionmedia.github.io/page.js/) client-side router.
  * A static file is used as the data source, but it could easily be replaced with a REST API.
 
+![](https://vaadin.com/documents/10187/10932999/component-mac.png)
+
 ## Views
 
 The application consists of four views.
