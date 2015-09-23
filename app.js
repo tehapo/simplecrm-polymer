@@ -19,7 +19,7 @@ app.addEventListener('dom-change', function() {
         setTimeout(function() {
             mainContent.classList.remove('transition');
             next();
-        }, 300);
+        }, 340);
     });
 
     // Set up the application routes.
