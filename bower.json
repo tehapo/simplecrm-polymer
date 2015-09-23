@@ -33,6 +33,6 @@
     "paper-toolbar": "polymerelements/paper-toolbar#~1.0.4",
     "progress-bubble": "~1.1.0",
     "vaadin-charts": "~3.0.0-alpha6",
-    "vaadin-components": "0.3.0-beta7"
+    "vaadin-grid": "0.9.0-beta2"
   }
 }
