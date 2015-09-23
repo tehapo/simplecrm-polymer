@@ -79,7 +79,9 @@
                 </table>
             </vaadin-grid>
         </div>
-        <customer-form id="customerForm"></customer-form>
+        <div id="formWrapper" style="display: none">
+            <customer-form id="customerForm"></customer-form>
+        </div>
     </template>
     <script>
         Polymer({
@@ -167,7 +169,11 @@
             },
 
             _displayEditor: function() {
-                this.$.customerForm.classList.add('visible');
+                // The formWrapper is used as a workaround to prevent extra scrollbars on Safari.
+                this.$.formWrapper.style.display = 'block';
+                this.async(function() {
+                    this.$.customerForm.classList.add('visible');
+                }.bind(this));
             },
 
             _cloneCustomer: function(customer) {
