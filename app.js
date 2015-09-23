@@ -37,13 +37,13 @@ app.addEventListener('dom-change', function() {
         app.route = 'map';
         app.setMainContent('map-page');
     });
-    page('/', function() {
+    page('/about', function() {
         app.route = 'about';
         app.setMainContent('about-page');
     });
     page('*', function() {
-        app.route = 'about';
-        app.setMainContent('about-page');
+        app.route = 'customers';
+        app.setMainContent('customers-page');
     });
 
     // Define the base path for the cases we're not running the app in '/'.
