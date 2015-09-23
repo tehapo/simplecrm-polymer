@@ -1,5 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/vaadin-charts/v-chart.html">
+<link rel="import" href="../bower_components/vaadin-charts/vaadin-pie-chart.html">
+<link rel="import" href="../bower_components/vaadin-charts/vaadin-funnel-chart.html">
+<link rel="import" href="../bower_components/vaadin-charts/vaadin-column-chart.html">
 <link rel="import" href="../elements/customer-data.html">
 
 <dom-module id="analyze-page">
@@ -45,37 +47,37 @@
         <div class="content">
 
             <div class="ageWrapper">
-                <v-chart id="ageChart" vc-type="column">
-                    <vc-title>Age</vc-title>
-                    <vc-x-axis>
-                        <vc-categories>0-15, 15-30, 30-60, 60-100</vc-categories>
-                    </vc-x-axis>
-                    <v-series id="ageSeries" vc-name="Ages"></v-series>
-                </v-chart>
+                <vaadin-column-chart id="ageChart">
+                    <title>Age</title>
+                    <x-axis>
+                        <categories>0-15, 15-30, 30-60, 60-100</categories>
+                    </x-axis>
+                    <data-series id="ageSeries" name="Ages"></data-series>
+                </vaadin-column-chart>
             </div>
 
             <div class="statusWrapper">
-                <v-chart id="statusChart" vc-type="funnel">
-                    <vc-title>Sales funnel</vc-title>
-                    <vc-plot-options>
-                        <vc-series vc-width="60%" vc-neck-width="25%" vc-neck-height="25%"></vc-series>
-                    </vc-plot-options>
-                    <v-series id="statusSeries" vc-name="Status"></v-series>
-                </v-chart>
+                <vaadin-funnel-chart id="statusChart">
+                    <title>Sales funnel</title>
+                    <plot-options>
+                        <series width="60%" neck-width="25%" neck-height="25%"></series>
+                    </plot-options>
+                    <data-series id="statusSeries" name="Status"></data-series>
+                </vaadin-funnel-chart>
             </div>
 
             <div class="genderWrapper">
-                <v-chart id="genderChart" vc-type="pie">
-                    <vc-title>Gender</vc-title>
-                    <vc-tooltip vc-point-format="{point.percentage:.1f}%"></vc-tooltip>
-                    <vc-plot-options>
-                        <vc-pie vc-allow-point-select="true" vc-cursor="pointer">
-                            <vc-data-labels vc-enabled="true" vc-format="<b>{point.name}</b>: {point.percentage:.1f}%"></vc-data-labels>
-                        </vc-pie>
-                    </vc-plot-options>
+                <vaadin-pie-chart id="genderChart">
+                    <title>Gender</title>
+                    <tooltip point-format="{point.percentage:.1f}%"></tooltip>
+                    <plot-options>
+                        <pie allow-point-select="true" cursor="pointer">
+                            <data-labels enabled="true" format="<b>{point.name}</b>: {point.percentage:.1f}%"></data-labels>
+                        </pie>
+                    </plot-options>
 
-                    <v-series id="genderSeries" vc-name="Gender"></v-series>
-                </v-chart>
+                    <data-series id="genderSeries" name="Gender"></data-series>
+                </vaadin-pie-chart>
             </div>
         </div>
     </template>
@@ -110,14 +112,13 @@
                         var age = this._getAge(customer);
                         if (age >= ageGroup.min && age < ageGroup.max) {
                             ageGroup.count++;
-                            break;
                         }
                     }
                     return ageGroups;
                 }.bind(this), ageGroups);
 
                 // Map the groups to numbers for the chart.
-                this.$.ageSeries.vcData = ageGroups.map(function(group) { return group.count; });
+                this.$.ageSeries.data = ageGroups.map(function(group) { return group.count; });
             },
 
             _updateStatusChart: function() {
@@ -137,7 +138,7 @@
                 dataSeries.push(['Not Contacted', data['NotContacted'] || 0]);
                 dataSeries.push(['Contacted', data['Contacted'] || 0]);
                 dataSeries.push(['Customer', data['Customer'] || 0]);
-                this.$.statusSeries.vcData = dataSeries;
+                this.$.statusSeries.data = dataSeries;
             },
 
             _updateGenderChart: function() {
@@ -155,7 +156,7 @@
                 var dataSeries = [];
                 dataSeries.push(['Men', data['Male']]);
                 dataSeries.push(['Women', data['Female']]);
-                this.$.genderSeries.vcData = dataSeries;
+                this.$.genderSeries.data = dataSeries;
             },
 
             _customersChanged: function() {
